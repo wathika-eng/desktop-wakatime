@@ -1,6 +1,5 @@
 import fs from "node:fs";
 import path from "node:path";
-import iconPromise from "icon-promise";
 import Winreg from "winreg";
 
 import { Store } from "../../store";
@@ -51,6 +50,7 @@ async function getIcon(filePath: string) {
       return cachedIcon;
     }
 
+    const { default: iconPromise } = await import("icon-promise");
     const output = await iconPromise.getIcon256(filePath, filePath);
 
     const icon = "data:image/png;base64," + output.Base64ImageData;

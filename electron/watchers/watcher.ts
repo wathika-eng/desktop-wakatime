@@ -1,5 +1,7 @@
 import {
   activeWindow,
+  isEnabledExtension,
+  isInstalledExtension,
   subscribeActiveWindow,
   unsubscribeActiveWindow,
   WindowInfo,
@@ -17,14 +19,31 @@ export class Watcher {
   activeWindow?: WindowInfo;
   private activeWindowSubscription: number | null;
   private interval: NodeJS.Timeout | null;
+  private windowTrackingAvailable: boolean | null;
 
   constructor(wakatime: Wakatime) {
     this.wakatime = wakatime;
     this.activeWindowSubscription = null;
     this.interval = null;
+    this.windowTrackingAvailable = null;
   }
 
   private handleActivity() {
+    if (this.windowTrackingAvailable === null) {
+      this.windowTrackingAvailable =
+        process.platform !== "linux" ||
+        (isInstalledExtension() && isEnabledExtension());
+      if (!this.windowTrackingAvailable) {
+        Logging.instance().log(
+          "Window tracking not available. Install the GNOME Shell extension and restart your session.",
+          LogLevel.ERROR,
+        );
+      }
+    }
+    if (!this.windowTrackingAvailable) {
+      return;
+    }
+
     try {
       const window = activeWindow();
       if (!MonitoringManager.isMonitored(window.info.path)) {
@@ -55,8 +74,8 @@ export class Watcher {
   start() {
     this.stop();
     this.activeWindowSubscription = subscribeActiveWindow(
-      (windowInfo: WindowInfo) => {
-        if (!windowInfo.info.processId) return;
+      (error: Error | null, windowInfo: WindowInfo | undefined) => {
+        if (error || !windowInfo?.info.processId) return;
         if (this.activeWindow?.info.processId === windowInfo.info.processId) {
           return;
         }

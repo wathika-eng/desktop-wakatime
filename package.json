@@ -1,9 +1,10 @@
 {
   "name": "desktop-wakatime",
   "private": true,
-  "version": "0.0.0",
+  "version": "3.1.0",
   "author": {
-    "name": "Wakatime"
+    "name": "Wakatime",
+    "email": "support@wakatime.com"
   },
   "description": "Wakatime desktop app.",
   "scripts": {
@@ -17,9 +18,12 @@
     "type": "git",
     "url": "https://github.com/wakatime/desktop-wakatime"
   },
+  "optionalDependencies": {
+    "@miniben90/x-win-linux-x64-gnu": "^3.5.0"
+  },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.633.0",
-    "@miniben90/x-win": "^2.1.0",
+    "@miniben90/x-win": "^3.5.0",
     "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-checkbox": "^1.1.1",
     "@radix-ui/react-label": "^2.1.0",

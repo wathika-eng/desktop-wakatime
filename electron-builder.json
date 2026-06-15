@@ -13,20 +13,12 @@
   "directories": {
     "output": "release"
   },
-  "files": [
-    "dist",
-    "dist-electron",
-    "public"
-  ],
+  "files": ["dist", "dist-electron", "public"],
   "win": {
     "target": [
       {
         "target": "nsis",
-        "arch": [
-          "ia32",
-          "x64",
-          "arm64"
-        ]
+        "arch": ["ia32", "x64", "arm64"]
       }
     ],
     "artifactName": "wakatime-win32-${arch}.${ext}",
@@ -37,16 +29,16 @@
     "perMachine": false,
     "deleteAppDataOnUninstall": false
   },
+  "asarUnpack": ["**/*.node"],
   "linux": {
     "target": [
       {
         "target": "AppImage",
-        "arch": [
-          "x64",
-          "arm64"
-        ]
+        "arch": ["x64", "arm64"]
       }
     ],
+    "icon": "./public/app-icon.png",
+    "category": "Utility",
     "artifactName": "wakatime-linux-${arch}.${ext}"
   }
 }

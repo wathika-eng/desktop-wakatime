@@ -13,6 +13,8 @@ dist-ssr
 dist-electron
 release
 *.local
+pnpm-lock.yaml
+bun.lock
 
 # Editor directories and files
 .vscode/*
